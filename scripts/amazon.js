@@ -1,6 +1,8 @@
+import { products } from '../data/products.js';
 import {cart} from '../data/cart.js';
 // import {cart as myCart} from '../data/cart.js';
 //for naming conflicts if we had another variable in this file with the same name!
+
 
 let productsHTML = '';
 
