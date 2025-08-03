@@ -61,7 +61,8 @@ innerHTML = productsHTML;
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
     button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
+      // const productId = button.dataset.productId;
+      const {productId} = button.dataset; //destrauctring shortcut
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
       let quantity = Number(quantitySelector.value);
       let matchingItem;
@@ -76,8 +77,11 @@ document.querySelectorAll('.js-add-to-cart')
           matchingItem.quantity += quantity;
         } else {
            cart.push({
-              productId: productId,
-              quantity: 1
+              // productId: productId,
+              // quantity: 1
+              //destrauctring shortcut
+              productId,
+              quantity
         });
       }
 
