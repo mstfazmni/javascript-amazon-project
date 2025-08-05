@@ -1,5 +1,6 @@
 import { products } from '../data/products.js';
-import {cart} from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
+
 // import {cart as myCart} from '../data/cart.js';
 //for naming conflicts if we had another variable in this file with the same name!
 
@@ -64,6 +65,19 @@ products.forEach((product) => {
 document.querySelector('.js-products-grid').
 innerHTML = productsHTML;
 
+
+
+
+function updateCartQuantity() {
+  let cartQuantity = 0;
+
+      cart.forEach((cartItem) => {
+        cartQuantity += cartItem.quantity;
+      });
+
+      document.querySelector('.js-cart-quantity')
+        .innerHTML = cartQuantity;
+}
 //add to cart functionallity
 document.querySelectorAll('.js-add-to-cart')
   .forEach((button) => {
@@ -75,36 +89,9 @@ document.querySelectorAll('.js-add-to-cart')
       const {productId} = button.dataset; //destrauctring shortcut
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
       let quantity = Number(quantitySelector.value);
-      let matchingItem;
 
-      cart.forEach((item) => {
-        if(productId === item.productId) {
-          matchingItem = item;
-        }
-      });
-
-        if(matchingItem) {
-          matchingItem.quantity += quantity;
-        } else {
-           cart.push({
-              // productId: productId,
-              // quantity: 1
-              //destrauctring shortcut
-              productId,
-              quantity
-        });
-      }
-
-      
-
-      let cartQuantity = 0;
-
-      cart.forEach((item) => {
-        cartQuantity += item.quantity;
-      });
-
-      document.querySelector('.js-cart-quantity')
-        .innerHTML = cartQuantity;
+      addToCart(productId, quantity);
+      updateCartQuantity();
 
       //show added message
       const addedMessage = document.querySelector(
