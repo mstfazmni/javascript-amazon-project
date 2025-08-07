@@ -1,7 +1,9 @@
-import { cart, removeFromCart, calculateCartQuantity } from '../data/cart.js';
+import { cart, removeFromCart, calculateCartQuantity, updateQuantity } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+import { deliveryOptions } from '../data/deliveryOptions.js';
+
 
 const today = dayjs();
 const deliveryDate = today.add(7, 'days');
@@ -39,7 +41,7 @@ cart.forEach((cartItem) => {
         </div>
         <div class="product-quantity">
             <span>
-            Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+            Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
             </span>
             <span class="update-quantity-link link-primary js-update-link"
             data-product-id="${matchingProduct.id}"
@@ -107,6 +109,26 @@ cart.forEach((cartItem) => {
     </div>
 `;
 });
+function deliveryOptionsHTML() {
+    deliveryOptions.forEach((deliveryOption) => {
+        `
+            <div class="delivery-option">
+            <input type="radio" checked
+            class="delivery-option-input"
+            name="delivery-option-${matchingProduct.id}">
+            <div>
+            <div class="delivery-option-date">
+                Tuesday, June 21
+            </div>
+            <div class="delivery-option-price">
+                FREE Shipping
+            </div>
+            </div>
+        </div>
+        `;
+    })
+}
+
 
 document.querySelector('.js-order-summary')
     .innerHTML = cartSummaryHTML;
@@ -160,6 +182,14 @@ document.querySelectorAll('.js-save-link')
                 `.js-quantity-input-${productId}`
             );
             const newQuantity = Number(quantityInput.value);
+
+            updateQuantity(productId, newQuantity);
+
+            const quantityLabel = document.querySelector(
+                `.js-quantity-label-${productId}`
+            );
+            quantityLabel.innerHTML = newQuantity;
             
-        })
-    })
+            updateCartQuantity();
+        });
+    });
