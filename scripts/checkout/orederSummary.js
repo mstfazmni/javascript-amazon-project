@@ -200,3 +200,10 @@ export function renderOrderSummary() {
 
 };
 
+
+
+// practice
+const todayDate = dayjs();
+const Fivedays = todayDate.add(5, 'days');
+const todayString = Fivedays.format('dddd, MMMM D')
+console.log(todayString)
