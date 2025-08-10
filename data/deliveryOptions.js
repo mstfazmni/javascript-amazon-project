@@ -1,4 +1,6 @@
 import { products } from "./products.js";
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+
 
 export const deliveryOptions = [{
     id: '1',
@@ -24,4 +26,19 @@ export function getDeliveryOption(deliveryOptionId) {
     });
 
     return deliveryOption || deliveryOptions[0];
+}
+
+function isWeekend(date) {
+    const dayOfWeek = date.format('dddd');
+    return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
+}
+
+export function calculateDeliveryDate(deliveryOption) {
+    const today = dayjs();
+   
+    const dateString = deliveryDate.format(
+        'dddd, MMMM D'
+    );
+
+    return dateString;
 }
